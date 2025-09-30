@@ -1266,7 +1266,315 @@
             </div>
         </div>
     </section>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Xác Nhận Tham Dự</title>
+    <style>
+        #rsvp-section {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(214, 51, 108, 0.15);
+        }
+        
+        #rsvp-section * {
+            box-sizing: border-box;
+        }
 
+        .rsvp-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .rsvp-subtitle {
+            color: #d6336c;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .rsvp-title {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .rsvp-description {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-label span {
+            color: #d6336c;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            transition: all 0.3s ease;
+            background: white;
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #d6336c;
+            box-shadow: 0 0 0 3px rgba(214, 51, 108, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px 20px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .radio-option label:hover {
+            border-color: #d6336c;
+            background: #fff5f7;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: #d6336c;
+            border-color: #d6336c;
+            color: white;
+            font-weight: 600;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(214, 51, 108, 0.3);
+        }
+
+        .radio-option input[type="radio"]:checked + label::before {
+            content: '✓ ';
+            margin-right: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #d6336c 0%, #b91c45 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(214, 51, 108, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #rsvp-section {
+                padding: 40px 25px;
+                margin: 40px auto;
+            }
+
+            .rsvp-title {
+                font-size: 28px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="rsvp-section">
+        <div class="rsvp-header">
+            <p class="rsvp-subtitle">XÁC NHẬN THAM DỰ</p>
+            <h2 class="rsvp-title">RSVP</h2>
+            <p class="rsvp-description">
+                Sự hiện diện của bạn là niềm vinh hạnh cho chúng tôi. <br>
+                Vui lòng xác nhận tham dự để chúng tôi chuẩn bị chu đáo hơn.
+            </p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ Cảm ơn bạn đã xác nhận! Chúng tôi rất mong được gặp bạn.
+        </div>
+
+        <form id="rsvpForm">
+            <div class="form-group">
+                <label class="form-label">Họ và tên <span>*</span></label>
+                <input type="text" class="form-input" id="fullName" name="fullName" required placeholder="Nhập họ và tên của bạn">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Số điện thoại <span>*</span></label>
+                <input type="tel" class="form-input" id="phone" name="phone" required placeholder="Nhập số điện thoại">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tham dự buổi <span>*</span></label>
+                <select class="form-select" id="event" name="event" required>
+                    <option value="">-- Chọn buổi tham dự --</option>
+                    <option value="vugirl">Lễ Vu Quy (Nhà gái - 01/11/2025, 10:00 AM)</option>
+                    <option value="wedding">Lễ Thành Hôn (Nhà trai - 01/11/2025, 10:30 AM)</option>
+                    <option value="both">Cả hai buổi</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Xác nhận tham dự <span>*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="willAttend" name="attendance" value="yes" required>
+                        <label for="willAttend">Sẽ tham dự</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="wontAttend" name="attendance" value="no">
+                        <label for="wontAttend">Không thể tham dự</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Số lượng khách</label>
+                <input type="number" class="form-input" id="guests" name="guests" min="1" max="10" value="1" placeholder="1">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Lời chúc</label>
+                <textarea class="form-textarea" id="wishes" name="wishes" placeholder="Gửi lời chúc đến cô dâu chú rể..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Gửi xác nhận</button>
+        </form>
+    </section>
+    <script>
+        const form = document.getElementById('rsvpForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                event: document.getElementById('event').value,
+                attendance: document.querySelector('input[name="attendance"]:checked').value,
+                guests: document.getElementById('guests').value,
+                wishes: document.getElementById('wishes').value
+            };
+
+            console.log('Form Data:', formData);
+            
+            successMessage.classList.add('show');
+            
+            form.reset();
+            
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
     <section id="thankyou" class="section-thankyou bg_overlay uk-position-z-index">
         <div class="uk-overlay uk-overlay-primary uk-position-cover">
         </div>
