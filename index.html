@@ -40,11 +40,60 @@
             position: relative;
             z-index: 9999;
         }
-
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: fall linear infinite;
+            opacity: 0;
+        }
         body::-webkit-scrollbar {
             display: none;
         }
-
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(100px) rotate(180deg);
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+                transform: translateX(-100px) rotate(360deg);
+            }
+        }
+        
+        .heart:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; font-size: 18px; color: #ff1493; }
+        .heart:nth-child(2) { left: 15%; animation-duration: 10s; animation-delay: 2s; font-size: 22px; color: #ff69b4; }
+        .heart:nth-child(3) { left: 25%; animation-duration: 9s; animation-delay: 4s; font-size: 16px; color: #ff85c1; }
+        .heart:nth-child(4) { left: 35%; animation-duration: 11s; animation-delay: 1s; font-size: 24px; color: #ff1493; }
+        .heart:nth-child(5) { left: 45%; animation-duration: 8.5s; animation-delay: 3s; font-size: 20px; color: #ff69b4; }
+        .heart:nth-child(6) { left: 55%; animation-duration: 10.5s; animation-delay: 5s; font-size: 18px; color: #ff85c1; }
+        .heart:nth-child(7) { left: 65%; animation-duration: 9.5s; animation-delay: 0.5s; font-size: 22px; color: #ff1493; }
+        .heart:nth-child(8) { left: 75%; animation-duration: 11.5s; animation-delay: 2.5s; font-size: 16px; color: #ff69b4; }
+        .heart:nth-child(9) { left: 85%; animation-duration: 8.8s; animation-delay: 4.5s; font-size: 24px; color: #ff85c1; }
+        .heart:nth-child(10) { left: 95%; animation-duration: 10.2s; animation-delay: 1.5s; font-size: 20px; color: #ff1493; }
+        
+        @media (max-width: 768px) {
+            .about-container, .gift-qr-container { flex-direction: column !important; }
+            .about-card, .qr-card { width: 100% !important; max-width: 100% !important; }
+            .heart { font-size: 16px !important; }
+        }
         body {
             --wp--preset--color--black: #000000;
             --wp--preset--color--cyan-bluish-gray: #abb8c3;
@@ -556,6 +605,18 @@
 
     <link rel="stylesheet" href="wp-content/themes/assets/style.css">
 </head>
+    <div class="hearts-container">
+        <div class="heart">❤</div>
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+        <div class="heart">❤</div>
+        <div class="heart">💗</div>
+        <div class="heart">💕</div>
+        <div class="heart">❤</div>
+        <div class="heart">💖</div>
+        <div class="heart">💗</div>
+        <div class="heart">💕</div>
+    </div>
 <body
     class="mau-thiep-template mau-thiep-template-templates mau-thiep-template-korea mau-thiep-template-templateskorea-php single single-mau-thiep postid-154 no-sidebar">
     <div id="welcome-modal"
