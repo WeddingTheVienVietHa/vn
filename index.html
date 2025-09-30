@@ -1340,6 +1340,17 @@
             transition: all 0.3s ease;
             background: white;
             outline: none;
+            color: #333;
+        }
+        
+        .form-select option {
+            color: #333;
+            background: white;
+            padding: 10px;
+        }
+        
+        .form-select option:first-child {
+            color: #999;
         }
 
         .form-input:focus,
@@ -1502,7 +1513,7 @@
             <div class="form-group">
                 <label class="form-label">Tham dự buổi <span>*</span></label>
                 <select class="form-select" id="event" name="event" required>
-                    <option value="">-- Chọn buổi tham dự --</option>
+                    <option value="" disabled selected style="color: #999;">-- Chọn buổi tham dự --</option>
                     <option value="vugirl">Lễ Vu Quy (Nhà gái - 01/11/2025, 10:00 AM)</option>
                     <option value="wedding">Lễ Thành Hôn (Nhà trai - 01/11/2025, 10:30 AM)</option>
                     <option value="both">Cả hai buổi</option>
@@ -1536,50 +1547,64 @@
             <button type="submit" class="submit-btn">Gửi xác nhận</button>
         </form>
     </section>
+
     <script>
-       const form = document.getElementById('rsvpForm');
-const successMessage = document.getElementById('successMessage');
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymmbR1Rk8uAQJZLVzmKwLyefK_uRzdxEGO9NCsEecx1Eev2bwXA0jfbSls7XNBx-RBow/exec';
-form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const submitBtn = form.querySelector('.submit-btn');
-    submitBtn.textContent = 'Đang gửi...';
-    submitBtn.disabled = true;
-    
-    const formData = {
-        fullName: document.getElementById('fullName').value,
-        phone: document.getElementById('phone').value,
-        event: document.getElementById('event').value,
-        attendance: document.querySelector('input[name="attendance"]:checked').value,
-        guests: document.getElementById('guests').value,
-        wishes: document.getElementById('wishes').value
-    };
+        const form = document.getElementById('rsvpForm');
+        const successMessage = document.getElementById('successMessage');
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymmbR1Rk8uAQJZLVzmKwLyefK_uRzdxEGO9NCsEecx1Eev2bwXA0jfbSls7XNBx-RBow/exec';
 
-    try {
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(formData)
-        });
-        
-        const result = await response.json();
-        
-        if (result.status === 'success') {
-            successMessage.classList.add('show');
-
-            form.reset();
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            setTimeout(() => {
-                successMessage.classList.remove('show');
-            }, 5000);
-        }
-    } catch (error) {
-        alert('Có lỗi xảy ra. Vui lòng thử lại!');
-    }
-    
-    submitBtn.textContent = 'Gửi xác nhận';
-    submitBtn.disabled = false;
-});
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Đang gửi...';
+            submitBtn.disabled = true;
+            
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                event: document.getElementById('event').options[document.getElementById('event').selectedIndex].text,
+                attendance: document.querySelector('input[name="attendance"]:checked').value === 'yes' ? 'Sẽ tham dự' : 'Không thể tham dự',
+                guests: document.getElementById('guests').value,
+                wishes: document.getElementById('wishes').value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                successMessage.classList.add('show');
+                form.reset();
+                
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 5000);
+                
+                window.scrollTo({
+                    top: document.getElementById('rsvp-section').offsetTop - 100,
+                    behavior: 'smooth'
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi gửi. Vui lòng thử lại!');
+            }
+            
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
     </script>
 </body>
 </html>
